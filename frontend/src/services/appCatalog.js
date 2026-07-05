@@ -6,21 +6,19 @@
 // "installed" if ANY of its candidate IDs reports exist:true — this covers
 // services that ship under more than one appId across firmware versions.
 //
-// Confidence notes (verified 2026-07):
-//   * netflix / amazon / disney       — well established across LG firmware.
-//   * appletv                         — ships as either bundle id; probe both.
-//   * UK broadcasters (iplayer/now/
-//     channel4/itvx)                  — UNVERIFIED. appIds vary by webOS
-//     version, model year and region (LG re-platformed the Freeview Play apps
-//     away from the old dukitv host in recent firmware). The strings below are
-//     best-effort guesses.
+// All IDs below were confirmed on a real webOS 24 TV (2026-07). The UK
+// broadcasters were the surprises: Channel 4 and ITV now ship as Freeview Play
+// apps (com.fvp.*), and BBC iPlayer carries a version suffix.
+//
+// CAVEAT — version-suffixed IDs (e.g. bbc.iplayer.3.0) can change when the app
+// updates. We keep the unsuffixed / legacy id as a fallback candidate so
+// detection still has a chance across firmware; a service counts as installed
+// if ANY of its candidate IDs reports exist:true.
 //
 // A webOS app CANNOT enumerate installed apps (listApps is denied to third
-// parties), which is why we probe each candidate id with getAppLoadStatus. To
-// discover the REAL ids for your TV, dump them from the dev machine over the
-// Developer Mode connection (this bypasses the in-app restriction):
-//   ares-install --device <tv> --list -F
-// then paste the correct strings below. Target here: webOS 24 (Chromium 108).
+// parties), which is why we probe each candidate id with getAppLoadStatus. If a
+// broadcaster stops being detected after an update, re-check its id on-device
+// (open the app, then `ares-launch -d tv --running`) and update the list here.
 export const CATALOG = [
 	{key: 'netflix', name: 'Netflix', appIds: ['netflix'], verified: true},
 	{key: 'prime', name: 'Amazon Prime Video', appIds: ['amazon'], verified: true},
@@ -36,10 +34,20 @@ export const CATALOG = [
 		appIds: ['com.apple.appletv', 'com.apple.appletv.web'],
 		verified: true,
 	},
-	{key: 'iplayer', name: 'BBC iPlayer', appIds: ['bbc.iplayer'], verified: false},
-	{key: 'now', name: 'NOW', appIds: ['nowtv'], verified: false},
-	{key: 'channel4', name: 'Channel 4', appIds: ['channel4', 'all4.app'], verified: false},
-	{key: 'itvx', name: 'ITVX', appIds: ['itvx'], verified: false},
+	{
+		key: 'iplayer',
+		name: 'BBC iPlayer',
+		appIds: ['bbc.iplayer.3.0', 'bbc.iplayer'],
+		verified: true,
+	},
+	{key: 'now', name: 'NOW', appIds: ['now.tv', 'nowtv'], verified: true},
+	{
+		key: 'channel4',
+		name: 'Channel 4',
+		appIds: ['com.fvp.ch4', 'channel4', 'all4.app'],
+		verified: true,
+	},
+	{key: 'itvx', name: 'ITVX', appIds: ['com.fvp.itv', 'itvx'], verified: true},
 ];
 
 // Flat list of every candidate appId, for the mount-time probe.
