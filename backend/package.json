@@ -1,0 +1,21 @@
+{
+  "name": "webos-streaming-aggregator-backend",
+  "version": "1.0.0",
+  "description": "Local Node.js proxy that bridges JustWatch catalog data with webOS installed-app queries.",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "node-cache": "^5.1.2"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,29 @@
+# Deployment stack for Portainer (handoff.md §5).
+#
+# By default this pulls the image published to GHCR by the GitHub Actions
+# workflow (.github/workflows/docker-image.yml). Point Portainer at this file
+# (Stacks → Add stack → Repository, or paste the web editor) and it will pull
+# and run the backend on your LAN, next to MQTT / Home Assistant.
+#
+# For LOCAL development instead of the published image, comment out `image:`
+# and uncomment `build:` to build from source.
+services:
+  aggregator:
+    image: ghcr.io/tjeffree/webos-streaming-aggregator:latest
+    # build: ./backend
+    container_name: webos-streaming-aggregator
+    restart: unless-stopped
+    ports:
+      # Host 3050 → container 3000 (host port 3000 is already in use).
+      # The TV reaches the backend at http://192.168.0.72:3050.
+      - "3050:3000"
+    environment:
+      # UK market by default — override for other regions.
+      JW_COUNTRY: GB
+      JW_LANGUAGE: en
+      CACHE_TTL_SECONDS: "86400"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

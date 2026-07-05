@@ -1,0 +1,16 @@
+.chip {
+	// Content-sized so the provider name is always visible; sits inline in the
+	// wrapping row with a little breathing room.
+	margin: 6px 12px 6px 0;
+
+	// Installed apps read as available; non-installed are dimmed so the
+	// "what can I actually watch right now" signal is obvious across the room.
+	// (Button's disabled state already dims, but keep it explicit.)
+	&.unavailable {
+		opacity: 0.5;
+	}
+
+	.icon {
+		margin-right: 12px;
+	}
+}

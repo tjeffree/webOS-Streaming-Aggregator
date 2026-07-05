@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+backend/dist/
+frontend/dist/
+frontend/build/
+
+# Env & local overrides
+.env
+.env.local
+
+# Local Claude Code settings (machine-specific permission rules)
+.claude/settings.local.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# webOS packaged app
+*.ipk

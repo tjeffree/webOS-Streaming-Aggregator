@@ -1,0 +1,16 @@
+{
+	"id": "com.tjeffree.streamingaggregator",
+	"version": "1.0.0",
+	"vendor": "tjeffree",
+	"type": "web",
+	"main": "index.html",
+	"title": "Streaming Finder",
+	"icon": "icon.png",
+	"largeIcon": "largeIcon.png",
+	"bgColor": "#000000",
+	"iconColor": "red",
+	"disableBackHistoryAPI": true,
+	"requiredPermissions": [
+		"applications.operation"
+	]
+}
