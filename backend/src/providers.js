@@ -22,6 +22,14 @@ const PACKAGE_ID_TO_KEY = {
 	38: 'iplayer', // BBC iPlayer
 	39: 'now', // Now TV
 	591: 'now', // Now TV Cinema
+	// HBO content has no standalone home in the UK — it's licensed to Sky and
+	// streamed via NOW. JustWatch, however, often tags these titles only under
+	// the standalone "HBO Max" package (and sometimes not under Now TV at all),
+	// so we fold HBO Max onto `now` to reflect where UK viewers actually watch
+	// it. NB: we intentionally do NOT map packageId 1825 ("HBO Max Amazon
+	// Channel") — that's a Prime add-on reseller, not NOW (see the resellers
+	// note below).
+	1899: 'now', // HBO Max (standalone)
 	103: 'channel4', // Channel 4 (technicalName still "all4")
 	41: 'itvx', // ITVX (technicalName "itv")
 };
@@ -38,6 +46,8 @@ const TECHNICAL_NAME_TO_KEY = {
 	bbc: 'iplayer',
 	nowtv: 'now',
 	nowtvcinema: 'now',
+	max: 'now', // HBO Max (standalone) — UK-watchable via NOW; see 1899 above
+	hbomax: 'now', // legacy technicalName for the same standalone service
 	all4: 'channel4',
 	itv: 'itvx',
 };

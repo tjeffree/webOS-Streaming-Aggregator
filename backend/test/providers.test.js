@@ -39,6 +39,28 @@ test('folds Apple TV+ and iTunes store into one appletv service', () => {
 	assert.equal(out[0].key, 'appletv');
 });
 
+test('maps standalone HBO Max onto the now service (UK watches HBO via NOW)', () => {
+	const out = decorateOffers([offer(1899, 'max', 'FLATRATE')]);
+	assert.equal(out.length, 1);
+	assert.equal(out[0].key, 'now');
+	assert.equal(out[0].name, 'NOW');
+});
+
+test('folds an HBO-Max-only offer and a Now TV offer into one now service', () => {
+	const out = decorateOffers([
+		offer(1899, 'max', 'FLATRATE'),
+		offer(39, 'nowtv', 'FLATRATE'),
+	]);
+	assert.equal(out.length, 1);
+	assert.equal(out[0].key, 'now');
+	assert.deepEqual(out[0].monetization, ['FLATRATE']);
+});
+
+test('does NOT map the HBO Max Amazon Channel reseller to now', () => {
+	const out = decorateOffers([offer(1825, 'amazonhbomax', 'FLATRATE')]);
+	assert.equal(out.length, 0);
+});
+
 test('falls back to technicalName when packageId is unknown', () => {
 	const out = decorateOffers([offer(99999, 'all4', 'ADS')]);
 	assert.equal(out.length, 1);
